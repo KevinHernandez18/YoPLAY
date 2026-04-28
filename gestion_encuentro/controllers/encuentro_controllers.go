@@ -6,7 +6,7 @@ import (
 	"gestion_encuentro/models"
 	"net/http"
 
-	// "github.com/gorilla/mux" //Librería para crear rutas
+	"github.com/gorilla/mux" //Librería para crear rutas
 )
 
 func respondJSON(w http.ResponseWriter, status int, payload interface{}){
@@ -35,3 +35,19 @@ func GetAllEncuentros(w http.ResponseWriter, r *http.Request){
 	respondJSON(w, 200, list)
 }
 
+func GetEncuentroByID(w http.ResponseWriter, r *http.Request) {
+	id_encuentro := mux.Vars(r)["id"]
+	
+	var e models.Encuentro
+
+	err := config.DB.QueryRow(
+		"SELECT id_encuentro, fecha, id_torneo, id_tipo_distribucion, fase_torneo, id_equipo1, resultado_equipo1, id_equipo2, resultado_equipo2, activo, fecha_creacion, fecha_modificacion FROM encuentro WHERE id_encuentro=$1", id_encuentro,
+	).Scan(&e.Id_Encuentro, &e.Fecha, &e.Id_Torneo, &e.Id_tipo_distribucion, &e.Fase_torneo, &e.Id_Equipo1, &e.Resultado_Equipo1, &e.Id_Equipo2, &e.Resultado_Equipo2, &e.Activo, &e.Fecha_Creacion, &e.Fecha_Modificacion)
+
+	if err != nil {
+		respondJSON(w, 404, map[string]string{"Error:": "Id no encontrado"})
+		return
+	}
+
+	respondJSON(w, 200, e)
+}
