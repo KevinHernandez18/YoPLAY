@@ -1,11 +1,10 @@
 package main
 
 import (
+	"gestion_encuentro/routes"
+	"gestion_encuentro/config"
 	"log"
 	"net/http"
-
-	"API_GO_CRUD/config"
-	"API_GO_CRUD/routes"
 
 	"github.com/gorilla/mux"
 )
@@ -33,11 +32,10 @@ func main(){
 	r := mux.NewRouter()
 
 	// Registro de rutas
-	//routes.
-	//routes.
-	//routes.
-	//routes.
-	//routes.
+	routes.RegisterEncuentroRoutes(r)
+	//routes.RegisterGrupoEncuentroRoutes(r)
+	//routes.RegisterGrupoEquipoRoutes(r)
+	//routes.RegisterGrupoRoutes(r)
 
 	log.Println("Servidor operando en el puerto 8090")
 
