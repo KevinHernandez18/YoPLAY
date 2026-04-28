@@ -6,7 +6,7 @@ import (
 	"gestion_encuentro/models"
 	"net/http"
 
-	"github.com/gorilla/mux"//Librería para crear rutas
+	// "github.com/gorilla/mux" //Librería para crear rutas
 )
 
 func respondJSON(w http.ResponseWriter, status int, payload interface{}){
@@ -28,9 +28,10 @@ func GetAllEncuentros(w http.ResponseWriter, r *http.Request){
 
 	for rows.Next() {
 		var e models.Encuentro
-		rows.Scan(&e.Id_Encuentro, &e.Fecha, &e.Id_Torneo, &e.Id_tipo_distribucion, &e.Fase_torneo, &e.Id_Equipo1, &e.Resultado_Equipo1, &e.Id_Equipo2, e.Resultado_Equipo2, e.Activo, e.Fecha_Creacion, e.Fecha_Modificacion)
+		rows.Scan(&e.Id_Encuentro, &e.Fecha, &e.Id_Torneo, &e.Id_tipo_distribucion, &e.Fase_torneo, &e.Id_Equipo1, &e.Resultado_Equipo1, &e.Id_Equipo2, &e.Resultado_Equipo2, &e.Activo, &e.Fecha_Creacion, &e.Fecha_Modificacion)
 		list = append(list, e)
 	}
 
 	respondJSON(w, 200, list)
 }
+

@@ -13,7 +13,6 @@ type Encuentro struct {
 	Id_Equipo2 			 int `json: "id_equipo2"`
 	Resultado_Equipo2 	 string `json: "resultado_equipo2"`
 	Activo 				 bool `json: "activo"`
-	Fecha_Creacion 		 time.Time `db:"fecha_creacion" json: fecha_creacion`
-	Fecha_Modificacion 	 time.Time `db:"fecha_modificacion" json: "fecha_modificacion"`
+	Fecha_Creacion 		 string `json: "fecha_creacion"`
+	Fecha_Modificacion 	 string `json: "fecha_modificacion"`
 }
-
