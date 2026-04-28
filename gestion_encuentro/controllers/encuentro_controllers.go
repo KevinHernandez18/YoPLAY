@@ -51,3 +51,21 @@ func GetEncuentroByID(w http.ResponseWriter, r *http.Request) {
 
 	respondJSON(w, 200, e)
 }
+
+func CreateEncuentro(w http.ResponseWriter, r *http.Request) {
+	var e models.Encuentro
+	json.NewDecoder(r.Body).Decode(&e)
+
+	err := config.DB.QueryRow(
+		"INSERT INTO encuentro (fecha, id_torneo, id_tipo_distribucion, fase_torneo, id_equipo1, id_equipo2) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id",
+		e.Fecha, e.Id_Torneo, e.Id_tipo_distribucion, e.Fase_torneo, e.Id_Equipo1, e.Id_Equipo2,
+	).Scan(&e.Fecha, &e.Id_Torneo, &e.Id_tipo_distribucion, &e.Fase_torneo, &e.Id_Equipo1, &e.Id_Equipo2)
+
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
+		return
+	}
+
+	respondJSON(w, 201, e)
+}
+
