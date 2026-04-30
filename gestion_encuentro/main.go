@@ -33,7 +33,7 @@ func main(){
 
 	// Registro de rutas
 	routes.RegisterEncuentroRoutes(r)
-	//routes.RegisterGrupoEncuentroRoutes(r)
+	routes.RegisterGrupoEncuentroRoutes(r)
 	//routes.RegisterGrupoEquipoRoutes(r)
 	//routes.RegisterGrupoRoutes(r)
 
