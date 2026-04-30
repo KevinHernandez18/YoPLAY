@@ -82,3 +82,15 @@ func UpdateGrupoEncuentro(w http.ResponseWriter, r *http.Request) {
 	}
 	respondJSON(w, 200, map[string]string{"Message": "Dato Actualizado"})
 }
+
+func DeleteGrupoEncuentro(w http.ResponseWriter, r *http.Request){
+	id := mux.Vars(r)["id"]
+
+	_, err := config.DB.Exec("DELETE FROM grupo_encuentro WHERE id_grupo_encuentro=$1", id)
+
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"Error": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"Message": "Dato eliminado"})
+}
