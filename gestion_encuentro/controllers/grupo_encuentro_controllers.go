@@ -8,7 +8,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	//"github.com/gorilla/mux" //Librería para crear rutas
 )
 
 func GetAllGrupoEncuentro(w http.ResponseWriter, r *http.Request) {
