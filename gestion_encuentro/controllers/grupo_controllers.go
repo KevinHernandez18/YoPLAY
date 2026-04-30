@@ -62,3 +62,22 @@ func CreateGrupo(w http.ResponseWriter, r *http.Request) {
 
 	respondJSON(w, 201, g)
 }
+
+func UpdateGrupo(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+
+	var g models.Grupo
+	json.NewDecoder(r.Body).Decode(&g)
+
+	_, err := config.DB.Exec(
+		"UPDATE grupo SET grupo = $1, fecha_modificacion = now() WHERE id_grupo = $2",
+		g.Grupo, id,
+	)
+
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
+		return
+	}
+
+	respondJSON(w, 200, map[string]string{"Message": "Actualizado correctamente"})
+}
