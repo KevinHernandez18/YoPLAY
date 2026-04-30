@@ -29,4 +29,20 @@ func GetALLGrupos(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, 200, list)
 }
 
+func GetGrupoByID(w http.ResponseWriter, r *http.Request) {
+	id_grupo := mux.Vars(r)["id"]
+
+	var g models.Grupo
+
+	err := config.DB.QueryRow(
+		"SELECT id_grupo, grupo, activo, fecha_creacion, fecha_modificacion FROM grupo WHERE id_grupo=$1", id_grupo,
+	).Scan(&g.Id_grupo, &g.Grupo, &g.Activo, &g.Fecha_Creacion, &g.Fecha_Modificacion)
+
+	if err != nil {
+		respondJSON(w, 404, map[string]string{"Error:": "Id no encontrado"})
+		return
+	}
+
+	respondJSON(w, 200, g)
+}
 
