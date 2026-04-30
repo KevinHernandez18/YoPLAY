@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	//"encoding/json"
+	"encoding/json"
 	"gestion_encuentro/config"
 	"gestion_encuentro/models"
 	"net/http"
@@ -46,3 +46,19 @@ func GetGrupoByID(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, 200, g)
 }
 
+func CreateGrupo(w http.ResponseWriter, r *http.Request) {
+	var g models.Grupo
+	json.NewDecoder(r.Body).Decode(&g)
+
+	err := config.DB.QueryRow(
+		"INSERT INTO grupo (grupo) VALUES ($1) RETURNING id_grupo",
+		g.Grupo,
+	).Scan(&g.Id_grupo)
+
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
+		return
+	}
+
+	respondJSON(w, 201, g)
+}
