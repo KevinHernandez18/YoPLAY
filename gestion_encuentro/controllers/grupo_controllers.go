@@ -81,3 +81,18 @@ func UpdateGrupo(w http.ResponseWriter, r *http.Request) {
 
 	respondJSON(w, 200, map[string]string{"Message": "Actualizado correctamente"})
 }
+
+func DeleteGrupo(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+
+	_, err := config.DB.Exec("DELETE FROM grupo WHERE id_grupo=$1", id)
+
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"Error": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"Message": "Dato eliminado"})
+}
+
+
+// Fin del desarrollo para grupo.
