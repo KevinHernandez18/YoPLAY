@@ -94,3 +94,5 @@ func DeleteGrupoEncuentro(w http.ResponseWriter, r *http.Request){
 	}
 	respondJSON(w, 200, map[string]string{"Message": "Dato eliminado"})
 }
+
+//	Finalizado.

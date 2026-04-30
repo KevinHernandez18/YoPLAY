@@ -35,7 +35,7 @@ func main(){
 	routes.RegisterEncuentroRoutes(r)
 	routes.RegisterGrupoEncuentroRoutes(r)
 	//routes.RegisterGrupoEquipoRoutes(r)
-	//routes.RegisterGrupoRoutes(r)
+	routes.RegisterGrupoRoutes(r)
 
 	log.Println("Servidor operando en el puerto 8090")
 
