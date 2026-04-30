@@ -2,6 +2,7 @@ package controllers
 
 import (
 	//"encoding/json"
+	"encoding/json"
 	"gestion_encuentro/config"
 	"gestion_encuentro/models"
 	"net/http"
@@ -33,16 +34,33 @@ func GetAllGrupoencuentro(w http.ResponseWriter, r *http.Request) {
 func GetGrupoEncuentroByID(w http.ResponseWriter, r *http.Request) {
 	id_grupo_encuentro := mux.Vars(r)["id"]
 
-	var ge models.Grupo_Encuentro
+	var GE models.Grupo_Encuentro
 
 	err := config.DB.QueryRow(
-		"SELECT id_grupo_encuentro, id_grupo, id_encuentro, activo FROM grupo_encuentro WHERE id_grupo_encuentro = $1", id_grupo_encuentro,
-	).Scan(&ge.Id_Grupo_Encuentro, &ge.Id_Grupo, &ge.Id_Encuentro, &ge.Activo)
+		"SELECT id_grupo_encuentro, id_grupo, id_encuentro, activo, fecha_creacion, fecha_modificacion FROM grupo_encuentro WHERE id_grupo_encuentro = $1", id_grupo_encuentro,
+	).Scan(&GE.Id_Grupo_Encuentro, &GE.Id_Grupo, &GE.Id_Encuentro, &GE.Activo, &GE.Fecha_Creacion, &GE.Fecha_Modificacion)
 
 	if err != nil {
 		respondJSON(w, 404, map[string]string{"Error:": "Id no encontrado"})
 		return
 	}
 
-	respondJSON(w, 200, ge)
+	respondJSON(w, 200, GE)
+}
+
+func CreateGrupoEncuentro(w http.ResponseWriter, r *http.Request){
+	var GE models.Grupo_Encuentro
+	json.NewDecoder(r.Body).Decode(&GE)
+
+	err := config.DB.QueryRow(
+		"INSERT INTO grupo_encuentro (id_grupo, id_encuentro) VALUES ($1, $2) RETURNING id_grupo_encuentro",
+		GE.Id_Grupo, GE.Id_Encuentro,
+	).Scan(&GE.Id_Grupo_Encuentro)
+
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
+		return
+	}
+
+	respondJSON(w, 201, GE)
 }
