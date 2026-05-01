@@ -81,16 +81,16 @@ func UpdateGrupoEquipo(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, 200, map[string]string{"Message": "Dato Actualizado"})
 }
 
-// func DeleteGrupoEquipo(w http.ResponseWriter, r *http.Request){
-// 	id := mux.Vars(r)["id"]
+func DeleteGrupoEquipo(w http.ResponseWriter, r *http.Request){
+	id := mux.Vars(r)["id"]
 
-// 	_, err := config.DB.Exec("DELETE FROM grupo_encuentro WHERE id_grupo_encuentro=$1", id)
+	_, err := config.DB.Exec("DELETE FROM grupo_equipo WHERE id_grupo_equipo=$1", id)
 
-// 	if err != nil {
-// 		respondJSON(w, 500, map[string]string{"Error": err.Error()})
-// 		return
-// 	}
-// 	respondJSON(w, 200, map[string]string{"Message": "Dato eliminado"})
-// }
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"Error": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"Message": "Dato eliminado"})
+}
 
 // //	Finalizado.

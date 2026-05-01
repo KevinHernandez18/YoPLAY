@@ -11,5 +11,5 @@ func RegisterGrupoEquipoRoutes(r *mux.Router){
 	r.HandleFunc("/grupoequipo/{id}", controllers.GetGrupoEquipoByID).Methods("GET")
 	r.HandleFunc("/grupoequipo", controllers.CreateGrupoEquipo).Methods("POST")
 	r.HandleFunc("/grupoequipo/{id}", controllers.UpdateGrupoEquipo).Methods("PUT")
-	//r.HandleFunc("/grupoequipo/{id}", controllers.DeleteGrupoEquipo).Methods("DELETE")
+	r.HandleFunc("/grupoequipo/{id}", controllers.DeleteGrupoEquipo).Methods("DELETE")
 }
