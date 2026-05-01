@@ -6,7 +6,7 @@ import (
 	"gestion_encuentro/models"
 	"net/http"
 
-	_ "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
 func GetAllGrupoEquipo(w http.ResponseWriter, r *http.Request) {
@@ -29,22 +29,22 @@ func GetAllGrupoEquipo(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, 200, list)
 }
 
-// func GetGrupoEquipoByID(w http.ResponseWriter, r *http.Request) {
-// 	id_grupo_encuentro := mux.Vars(r)["id"]
+func GetGrupoEquipoByID(w http.ResponseWriter, r *http.Request) {
+	id_grupo_equipo := mux.Vars(r)["id"]
 
-// 	var GEQ models.Grupo_Equipo
+	var GEQ models.Grupo_Equipo
 
-// 	err := config.DB.QueryRow(
-// 		"SELECT id_grupo_encuentro WHERE id_grupo_encuentro = $1", id_grupo_encuentro,
-// 	).Scan(&GEQ.Id_Grupo_Encuentro,)
+	err := config.DB.QueryRow(
+		"SELECT id_grupo_equipo, id_grupo, id_equipo, partidos_jugados, empates, victorias, derrotas, activo, fecha_creacion, fecha_modificacion FROM grupo_equipo WHERE id_grupo_equipo = $1", id_grupo_equipo,
+	).Scan(&GEQ.Id_Grupo_Equipo, &GEQ.Id_Grupo, &GEQ.Id_Equipo, &GEQ.Partidos_Jugados, &GEQ.Empates, &GEQ.Victorias, &GEQ.Derrotas, &GEQ.Activo, &GEQ.Fecha_Creacion, &GEQ.Fecha_Modificacion)
 
-// 	if err != nil {
-// 		respondJSON(w, 404, map[string]string{"Error:": "Id no encontrado"})
-// 		return
-// 	}
+	if err != nil {
+		respondJSON(w, 404, map[string]string{"Error:": "Id no encontrado"})
+		return
+	}
 
-// 	respondJSON(w, 200, GEQ)
-// }
+	respondJSON(w, 200, GEQ)
+}
 
 // func CreateGrupoEquipo(w http.ResponseWriter, r *http.Request){
 // 	var GEQ models.Grupo_Equipo
