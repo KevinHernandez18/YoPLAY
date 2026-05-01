@@ -1,17 +1,16 @@
 package controllers
 
 import (
-	//"encoding/json"
-	"encoding/json"
+	_ "encoding/json"
 	"gestion_encuentro/config"
 	"gestion_encuentro/models"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	_ "github.com/gorilla/mux"
 )
 
 func GetAllGrupoEquipo(w http.ResponseWriter, r *http.Request) {
-	rows, err := config.DB.Query("SELECT id_grupo_encuentro, id_grupo, id_encuentro, activo, fecha_creacion, fecha_modificacion FROM grupo_encuentro")
+	rows, err := config.DB.Query("SELECT id_grupo_equipo, id_grupo, id_equipo, partidos_jugados, empates, victorias, derrotas, activo, fecha_creacion, fecha_modificacion FROM grupo_equipo")
 
 	if err != nil {
 		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
@@ -23,75 +22,75 @@ func GetAllGrupoEquipo(w http.ResponseWriter, r *http.Request) {
 
 	for rows.Next() {
 		var GEQ models.Grupo_Equipo
-		rows.Scan()
+		rows.Scan(&GEQ.Id_Grupo_Equipo, &GEQ.Id_Grupo, &GEQ.Id_Equipo, &GEQ.Partidos_Jugados, &GEQ.Empates, &GEQ.Victorias, &GEQ.Derrotas, &GEQ.Activo, &GEQ.Fecha_Creacion, &GEQ.Fecha_Modificacion)
 		list = append(list, GEQ)
 	}
 
 	respondJSON(w, 200, list)
 }
 
-func GetGrupoEquipoByID(w http.ResponseWriter, r *http.Request) {
-	id_grupo_encuentro := mux.Vars(r)["id"]
+// func GetGrupoEquipoByID(w http.ResponseWriter, r *http.Request) {
+// 	id_grupo_encuentro := mux.Vars(r)["id"]
 
-	var GEQ models.Grupo_Equipo
+// 	var GEQ models.Grupo_Equipo
 
-	err := config.DB.QueryRow(
-		"SELECT id_grupo_encuentro WHERE id_grupo_encuentro = $1", id_grupo_encuentro,
-	).Scan(&GEQ.Id_Grupo_Encuentro,)
+// 	err := config.DB.QueryRow(
+// 		"SELECT id_grupo_encuentro WHERE id_grupo_encuentro = $1", id_grupo_encuentro,
+// 	).Scan(&GEQ.Id_Grupo_Encuentro,)
 
-	if err != nil {
-		respondJSON(w, 404, map[string]string{"Error:": "Id no encontrado"})
-		return
-	}
+// 	if err != nil {
+// 		respondJSON(w, 404, map[string]string{"Error:": "Id no encontrado"})
+// 		return
+// 	}
 
-	respondJSON(w, 200, GEQ)
-}
+// 	respondJSON(w, 200, GEQ)
+// }
 
-func CreateGrupoEquipo(w http.ResponseWriter, r *http.Request){
-	var GEQ models.Grupo_Equipo
-	json.NewDecoder(r.Body).Decode(&GEQ)
+// func CreateGrupoEquipo(w http.ResponseWriter, r *http.Request){
+// 	var GEQ models.Grupo_Equipo
+// 	json.NewDecoder(r.Body).Decode(&GEQ)
 
-	err := config.DB.QueryRow(
-		"INSERT INTO grupo_encuentro (id_grupo, id_encuentro) VALUES ($1, $2) RETURNING id_grupo_encuentro",
-		GEQ.Id_Grupo,
-	).Scan(&GEQ.Id_Grupo_Encuentro)
+// 	err := config.DB.QueryRow(
+// 		"INSERT INTO grupo_encuentro (id_grupo, id_encuentro) VALUES ($1, $2) RETURNING id_grupo_encuentro",
+// 		GEQ.Id_Grupo,
+// 	).Scan(&GEQ.Id_Grupo_Encuentro)
 
-	if err != nil {
-		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
-		return
-	}
+// 	if err != nil {
+// 		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
+// 		return
+// 	}
 
-	respondJSON(w, 201, GEQ)
-}
+// 	respondJSON(w, 201, GEQ)
+// }
 
-func UpdateGrupoEquipo(w http.ResponseWriter, r *http.Request) {
-	id := mux.Vars(r)["id"]
+// func UpdateGrupoEquipo(w http.ResponseWriter, r *http.Request) {
+// 	id := mux.Vars(r)["id"]
 
-	var GEQ models.Grupo_Equipo
-	json.NewDecoder(r.Body).Decode(&GEQ)
+// 	var GEQ models.Grupo_Equipo
+// 	json.NewDecoder(r.Body).Decode(&GEQ)
 
-	_, err := config.DB.Exec(
-		"UPDATE grupo_encuentro SET id_grupo=$1, id_encuentro=$2, activo=$3, fecha_modificacion=now() WHERE id_grupo_encuentro=$4",
-		GEQ.Id_Grupo, id,
-	)
+// 	_, err := config.DB.Exec(
+// 		"UPDATE grupo_encuentro SET id_grupo=$1, id_encuentro=$2, activo=$3, fecha_modificacion=now() WHERE id_grupo_encuentro=$4",
+// 		GEQ.Id_Grupo, id,
+// 	)
 
-	if err != nil {
-		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
-		return
-	}
-	respondJSON(w, 200, map[string]string{"Message": "Dato Actualizado"})
-}
+// 	if err != nil {
+// 		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
+// 		return
+// 	}
+// 	respondJSON(w, 200, map[string]string{"Message": "Dato Actualizado"})
+// }
 
-func DeleteGrupoEquipo(w http.ResponseWriter, r *http.Request){
-	id := mux.Vars(r)["id"]
+// func DeleteGrupoEquipo(w http.ResponseWriter, r *http.Request){
+// 	id := mux.Vars(r)["id"]
 
-	_, err := config.DB.Exec("DELETE FROM grupo_encuentro WHERE id_grupo_encuentro=$1", id)
+// 	_, err := config.DB.Exec("DELETE FROM grupo_encuentro WHERE id_grupo_encuentro=$1", id)
 
-	if err != nil {
-		respondJSON(w, 500, map[string]string{"Error": err.Error()})
-		return
-	}
-	respondJSON(w, 200, map[string]string{"Message": "Dato eliminado"})
-}
+// 	if err != nil {
+// 		respondJSON(w, 500, map[string]string{"Error": err.Error()})
+// 		return
+// 	}
+// 	respondJSON(w, 200, map[string]string{"Message": "Dato eliminado"})
+// }
 
-//	Finalizado.
+// //	Finalizado.

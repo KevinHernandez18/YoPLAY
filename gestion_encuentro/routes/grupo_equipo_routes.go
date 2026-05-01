@@ -7,9 +7,9 @@ import(
 )
 
 func RegisterGrupoEquipoRoutes(r *mux.Router){
-	r.HandleFunc("/grupoencuentro", controllers.GetAllGrupoEquipo).Methods("GET")
-	//r.HandleFunc("/grupoencuentro/{id}", controllers.GetGrupoEquipoByID).Methods("GET")
-	//r.HandleFunc("/grupoencuentro", controllers.CreateGrupoEquipo).Methods("POST")
-	//r.HandleFunc("/grupoencuentro/{id}", controllers.UpdateGrupoEquipo).Methods("PUT")
-	//r.HandleFunc("/grupoencuentro/{id}", controllers.DeleteGrupoEquipo).Methods("DELETE")
+	r.HandleFunc("/grupoequipo", controllers.GetAllGrupoEquipo).Methods("GET")
+	//r.HandleFunc("/grupoequipo/{id}", controllers.GetGrupoEquipoByID).Methods("GET")
+	//r.HandleFunc("/grupoequipo", controllers.CreateGrupoEquipo).Methods("POST")
+	//r.HandleFunc("/grupoequipo/{id}", controllers.UpdateGrupoEquipo).Methods("PUT")
+	//r.HandleFunc("/grupoequipo/{id}", controllers.DeleteGrupoEquipo).Methods("DELETE")
 }
