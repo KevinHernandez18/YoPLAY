@@ -46,7 +46,7 @@ func GetGrupoEquipoByID(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, 200, GEQ)
 }
 
-func CreateGrupoEquipo(w http.ResponseWriter, r *http.Request){
+func CreateGrupoEquipo(w http.ResponseWriter, r *http.Request) {
 	var GEQ models.Grupo_Equipo
 	json.NewDecoder(r.Body).Decode(&GEQ)
 
@@ -63,23 +63,23 @@ func CreateGrupoEquipo(w http.ResponseWriter, r *http.Request){
 	respondJSON(w, 201, GEQ)
 }
 
-// func UpdateGrupoEquipo(w http.ResponseWriter, r *http.Request) {
-// 	id := mux.Vars(r)["id"]
+func UpdateGrupoEquipo(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
 
-// 	var GEQ models.Grupo_Equipo
-// 	json.NewDecoder(r.Body).Decode(&GEQ)
+	var GEQ models.Grupo_Equipo
+	json.NewDecoder(r.Body).Decode(&GEQ)
 
-// 	_, err := config.DB.Exec(
-// 		"UPDATE grupo_encuentro SET id_grupo=$1, id_encuentro=$2, activo=$3, fecha_modificacion=now() WHERE id_grupo_encuentro=$4",
-// 		GEQ.Id_Grupo, id,
-// 	)
+	_, err := config.DB.Exec(
+		"UPDATE grupo_equipo SET id_grupo=$1, id_equipo=$2, partidos_jugados=$3, empates=$4, victorias=$5, derrotas=$6, activo=true, fecha_modificacion=now() WHERE id_grupo_equipo=$7",
+		GEQ.Id_Grupo, GEQ.Id_Equipo, GEQ.Partidos_Jugados, GEQ.Empates, GEQ.Victorias, GEQ.Derrotas, id,
+	)
 
-// 	if err != nil {
-// 		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
-// 		return
-// 	}
-// 	respondJSON(w, 200, map[string]string{"Message": "Dato Actualizado"})
-// }
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
+		return
+	}
+	respondJSON(w, 200, map[string]string{"Message": "Dato Actualizado"})
+}
 
 // func DeleteGrupoEquipo(w http.ResponseWriter, r *http.Request){
 // 	id := mux.Vars(r)["id"]
