@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	_ "encoding/json"
+	"encoding/json"
 	"gestion_encuentro/config"
 	"gestion_encuentro/models"
 	"net/http"
@@ -46,22 +46,22 @@ func GetGrupoEquipoByID(w http.ResponseWriter, r *http.Request) {
 	respondJSON(w, 200, GEQ)
 }
 
-// func CreateGrupoEquipo(w http.ResponseWriter, r *http.Request){
-// 	var GEQ models.Grupo_Equipo
-// 	json.NewDecoder(r.Body).Decode(&GEQ)
+func CreateGrupoEquipo(w http.ResponseWriter, r *http.Request){
+	var GEQ models.Grupo_Equipo
+	json.NewDecoder(r.Body).Decode(&GEQ)
 
-// 	err := config.DB.QueryRow(
-// 		"INSERT INTO grupo_encuentro (id_grupo, id_encuentro) VALUES ($1, $2) RETURNING id_grupo_encuentro",
-// 		GEQ.Id_Grupo,
-// 	).Scan(&GEQ.Id_Grupo_Encuentro)
+	err := config.DB.QueryRow(
+		"INSERT INTO grupo_equipo (id_grupo, id_equipo) VALUES ($1, $2) RETURNING id_grupo_equipo",
+		GEQ.Id_Grupo, GEQ.Id_Equipo,
+	).Scan(&GEQ.Id_Grupo_Equipo)
 
-// 	if err != nil {
-// 		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
-// 		return
-// 	}
+	if err != nil {
+		respondJSON(w, 500, map[string]string{"Error:": err.Error()})
+		return
+	}
 
-// 	respondJSON(w, 201, GEQ)
-// }
+	respondJSON(w, 201, GEQ)
+}
 
 // func UpdateGrupoEquipo(w http.ResponseWriter, r *http.Request) {
 // 	id := mux.Vars(r)["id"]
